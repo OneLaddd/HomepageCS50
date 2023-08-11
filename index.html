@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <link href="styles.css" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+        <script>
+            // Viewport Variables
+            let centerX = window.innerWidth / 2;
+            let centerY = window.innerHeight / 2;
+
+            // Sound
+            let enterSound = new Audio('sound/keyboard1.mp3');
+            let lightSwitchSound = new Audio('sound/lightswitch.mp3');
+            let transitionSound = new Audio('sound/transition.mp3');
+            let starCreateSound = new Audio('sound/starcreate.mp3');
+            let starRemoveSound = new Audio('sound/starremove.mp3');
+            let music = new Audio('sound/music.mp3');
+            music.volume = 0.5;
+            music.loop = true;
+
+            // Intro for loading screen
+            document.addEventListener("DOMContentLoaded", function () {
+                window.scrollTo((1535 / 2) - centerX, (1535 / 2) - centerY);
+
+                function typeWriterIntro() {
+
+                    let typed1 = new Typed('#intro legend', {
+                        strings: [
+                            `.`, `Hello, World!`
+                        ],
+                        typeSpeed: 25,
+                        preStringTyped: function() {enterSound.play()}
+                    });
+
+                    let typed2 = new Typed('#typewrite', {
+                        strings: [
+                            `.`, `....` , `.........`,
+                            `Hey there, I'm David.`,
+                            `- not the one you know very well, just a guy with the same first name, funny how that works out, right? `,
+                            `Not really.............`,
+                            ` Anyway, in this problem set, I did try extra-hard with this one, surpassing even the time I alotted to Tideman.`,
+                            `Before that, you might want to take a peek at my credentials, background, and what I've tackled before.`,
+                            `(You might be surprised😱,^150 don't miss out!)`,
+                            ` `
+                        ],
+                        typeSpeed: 25,
+                        preStringTyped: function() {enterSound.play()},
+                        onComplete: function() {
+                            typeWriter404();
+                        }
+                    });
+                }
+
+                function typeWriter404() {
+                    let introduction = document.querySelectorAll('.introduction');
+
+                    for (let i = 0; i < introduction.length; i++)
+                    {
+                        Object.assign(introduction[i].style, {
+                            display: 'none'
+                        });
+                    }
+
+                    setTimeout(function() {
+
+                        let four04 = document.querySelectorAll('.four04');
+                        for (let i = 0; i < four04.length; i++)
+                        {
+                            Object.assign(four04[i].style, {
+                                display: 'block'
+                            });
+                        }
+
+                        homepage();
+
+                        let typed3 = new Typed('h6.four04', {
+                            strings: [
+                                ` `,
+                                `                  `,
+                                `Haha...^1000 get it?`,
+                                `Well, if you exclude the 7 days' time I spent on FreeCodeCamp and the 3 weeks' worth of CS50 Problem Sets last year,`,
+                                `I don't really have programming experience prior to CS50...`,
+                                `Anyway, here's my homepage (though its not really a homepage)`,
+                                `As always thank you so much to CS50 for the opportunity... `,
+                                `^3000`
+                            ],
+                            typeSpeed: 20,
+                            preStringTyped: function() {enterSound.play();},
+                            onComplete: function() {
+                                for (let i = 0; i < four04.length; i++)
+                                {
+                                    Object.assign(four04[i].style, {
+                                        opacity: '0'
+                                    });
+                                }
+
+                                let tempBody1 = document.querySelector('#tempBody1');
+                                let tempBody2 = document.querySelector('#tempBody2');
+
+                                tempBody1.style.transform = 'translate(0px, -600px)';
+                                tempBody2.style.transform = 'translate(0px, 600px)';
+
+                                music.play();
+
+                                setTimeout(function() {
+                                    tempBody1.remove();
+                                    tempBody2.remove();
+
+                                    window.scrollTo(474 - centerX, 727 - centerY);
+                                }, 5000);
+                            }
+                        });
+                    }, 3000);
+                }
+
+                typeWriterIntro();
+            });
+
+            function homepage()
+            {
+                // Global Variables
+                let mouseBlockX = 0;
+                let mouseBlockY = 0;
+
+                let starCoordinates = [
+                                        { x: 474, y: 727 },
+                                        { x: 1206, y: 456 },
+                                        { x: 224, y: 507 },
+                                        { x: 1384, y: 834 },
+                                        { x: 637, y: 286 },
+                                        ];
+
+
+                // Main function
+                function main() {
+                    mouseMove();
+                    createLightBulbs();
+                    lightBulbClick();
+                    defaultWord();
+                    coordinatesDetect();
+                    starsCreation(0, 0);
+                    keyPressStar();
+                }
+
+                function mouseMove() {
+
+                    // Mouse-Screen Movement
+                    let mouseBlock = document.querySelector('#mouseBlock');
+
+                        document.addEventListener('mousemove', function(event){
+                            mouseBlock.style.transform = 'translateY(' + event.clientY + 'px) translateX(' + event.clientX + 'px)';
+
+                            mouseBlockX = event.offsetX / 4;
+                            mouseBlockY = event.offsetY / 4;
+
+                        }, false);
+                }
+
+                // Creation of lightbulb divs
+
+                function createLightBulbs() {
+                    let coordinates = [{ x: 36, y: 1151 }, { x: 86, y: 1143 }, { x: 136, y: 1140 },
+                                    { x: 181, y: 1133 }, { x: 225, y: 1135 }, { x: 271, y: 1135 },
+                                    { x: 313, y: 1127 }, { x: 360, y: 1123 }, { x: 414, y: 1113 },
+                                    { x: 462, y: 1109 }, { x: 513, y: 1105 }, { x: 558, y: 1101 },
+                                    { x: 601, y: 1105 }, { x: 646, y: 1104 }, { x: 690, y: 1097 },
+                                    { x: 733, y: 1095 }, { x: 783, y: 1103 }, { x: 827, y: 1107 },
+                                    { x: 875, y: 1113 }, { x: 914, y: 1119 }, { x: 953, y: 1128 },
+                                    { x: 993, y: 1136 }, { x: 1033, y: 1139 }, { x: 1072, y: 1145 },
+                                    { x: 1119, y: 1149 }, { x: 1168, y: 1151 }, { x: 1219, y: 1150 },
+                                    { x: 1263, y: 1153 }, { x: 1305, y: 1160 }, { x: 1348, y: 1164 },
+                                    { x: 1391, y: 1166 }, { x: 1436, y: 1169 }, { x: 1499, y: 1171 }
+                                    ];
+
+                    let lightBulbsSection = document.querySelector('#lightBulbsSection');
+
+                    for (let i = 0; i < coordinates.length - 1; i++)
+                    {
+                        // Initialization of lightbulbs and their glows
+                        let lightbulb = document.createElement('div');
+
+                        // Positioning of lightbulbs and their glows
+
+                        Object.assign(lightbulb.style, {
+                            left: (coordinates[i].x - 6) + 'px',
+                            top: (coordinates[i].y - 9) + 'px'
+                        });
+
+                        // Setting them their corresponding byte and bit values values
+                        lightbulb.setAttribute('data-byte', `${(Math.ceil((i + 1) / 8))}`);
+                        lightbulb.setAttribute('data-bit', `${9 - ((i % 8) + 1)}`);
+
+                        // Assigning them Classes
+
+                        lightbulb.className =  `lightBulbs`;
+                        lightBulbsSection.appendChild(lightbulb);
+                    }
+
+                }
+
+                function lightBulbClick() {
+
+                    let lightBulbs = document.querySelectorAll('.lightBulbs');
+                    let bytes = {
+                        'byte1': 0,
+                        'byte2': 0,
+                        'byte3': 0,
+                        'byte4': 0,
+                        'byte5': 0
+                    }
+
+                    for (let i = 0; i < lightBulbs.length; i++)
+                    {
+                        lightBulbs[i].addEventListener("click", function() {
+
+                            let byte_val = parseInt(lightBulbs[i].getAttribute('data-byte'));
+                            let bit_val = parseInt(lightBulbs[i].getAttribute('data-bit'));
+
+                            // If Light Bulb is closed, it opens
+                            if (lightBulbs[i].style.opacity != '1')
+                            {
+                                lightBulbs[i].style.opacity = '1';
+                                bytes[`byte${byte_val}`] += 2 ** (bit_val - 1);
+                            }
+
+                            // If Lightbulb is open, it closes
+                            else
+                            {
+                                lightBulbs[i].style.opacity = '0.3';
+                                bytes[`byte${byte_val}`] -= 2 ** (bit_val - 1);
+                            }
+
+                            // Play Sound
+                            lightSwitchSound.play();
+
+                            /* Prints out "This is ${(4-word string)}" */
+
+                                let welcome = document.querySelector('#welcome');
+                                let c = [bytes.byte1, bytes.byte2, bytes.byte3, bytes.byte4];
+                                c = c.map(function(char) {
+                                    if (char >= 30) {
+                                        return String.fromCharCode(char);
+                                    }
+                                    else {
+                                        return " ";
+                                    }
+                                });
+
+                                welcome.textContent = `This is ${c.join('')}`;
+                        });
+                    }
+                }
+
+
+                function defaultWord() {
+                    // Default Text for the 4-word string
+                    let lightBulbs = document.querySelectorAll('.lightBulbs');
+                    let word = "CS50";
+                    let binary = "";
+
+                    // Conversion of string to binary
+                    for (let i = 0; i < word.length; i++) {
+                        let charBinary = word[i].charCodeAt(0).toString(2);
+                        binary += charBinary.padStart(8, '0');
+                    }
+
+                    for (let i = 0; i < binary.length; i++) {
+                        if (binary[i] == 1) {
+                            lightBulbs[i].click();
+                        }
+                    }
+
+                }
+
+                // Coordinates for Starts
+                function starsCreation(x, y) {
+                    let starSection  = document.querySelector("#starSection");
+
+                    if (!(x == 0 && y == 0))
+                    {
+                        starCoordinates.push({ x: x, y: y });
+                    }
+
+                    let sortedCoordinates = starEdge(starCoordinates);
+
+                    // Create Sorted Stars
+                    for (let i = 0; i < sortedCoordinates.length; i++)
+                    {
+                        let star = document.createElement('div');
+
+                        Object.assign(star.style, {
+                            top: sortedCoordinates[i].y + 'px',
+                            left: sortedCoordinates[i].x + 'px'
+                        });
+
+
+                        if (i > 0 && i < sortedCoordinates.length - 1)
+                        {
+                            star.className = `stars starEdge${i} starEdge${i - 1}`;
+                        }
+                        else if (i == 0)
+                        {
+                            star.className = `stars starEdge${i}`;
+                        }
+                        else
+                        {
+                            star.className = `stars starEdge${i - 1}`;
+                        }
+                        starSection.appendChild(star);
+
+                    }
+
+                    starEdgeHover();
+                    clickStars(sortedCoordinates);
+                }
+
+                function starEdge(coordinates) {
+
+                    let coordsLength = Object.keys(coordinates).length;
+                    let edgesSection = document.querySelector('#edgesSection');
+
+                    let visitedCoord = new Array(coordsLength).fill(false);
+                    let iteration = 0;
+                    let sortedCoordinates = [];
+
+                    function createEdge(i)
+                    {
+                        let distance = new Array(coordsLength);
+
+                        for (let j = 0; j < coordsLength; j++)
+                        {
+                            if (i != j && visitedCoord[j] != true)
+                            {
+                                // Calculates the Distance between coordinate i to coordinates j
+                                distance[j] = (((coordinates[j].x - coordinates[i].x) ** 2) +
+                                                (coordinates[j].y - coordinates[i].y) ** 2) ** 0.5;
+                            }
+
+                            else
+                            {
+                                // 10000 is an arbitrarily decided number that could be used as control
+                                distance[j] = 10000;
+                            }
+                        }
+                        // ldi == Least Distance Index
+                        let ldi = distance.indexOf(Math.min(...distance));
+                        let hyp = distance[ldi];
+                        let opp = coordinates[i].y - coordinates[ldi].y;
+                        let adj = coordinates[i].x - coordinates[ldi].x;
+                        let angle = Math.atan2(opp, adj) * 180 / Math.PI;
+                        let angleCSS =(angle - 90);
+
+                        if (hyp != 10000)
+                        {
+                            // Creates an edge to the smallest distance taken to the next node
+                            let edge = document.createElement('div');
+
+                            Object.assign(edge.style, {
+                                top: (coordinates[i].y - hyp) + 'px',
+                                left: (coordinates[i].x - 10) + 'px',
+                                height: hyp + 'px',
+                                transform: `rotate(${angleCSS}deg)`
+                            });
+
+                            // Updates visited coordinates
+                            visitedCoord[i] = true;
+
+                            // Add classes
+                            edge.className = `edges starEdge${iteration}`;
+                            edgesSection.appendChild(edge);
+                            iteration++;
+
+                            // Add to sortedCoordinates
+                            sortedCoordinates.push({ x: coordinates[i].x, y: coordinates[i].y});
+
+                            // Recursively calls the next node
+                            createEdge(ldi);
+                        }
+                    }
+                    createEdge(0);
+                    let lastCoordinateIndex = visitedCoord.findIndex(bool => bool == false);
+                    let LCI = lastCoordinateIndex;
+                    sortedCoordinates.push({ x: coordinates[LCI].x, y: coordinates[LCI].y });
+                    return sortedCoordinates;
+                }
+
+                function starEdgeHover() {
+                    let edges = document.querySelectorAll('.edges')
+
+                    for (let i = 0; i < edges.length; i++)
+                    {
+                        let starEdgeStyle = document.createElement('style');
+                        let starEdge = document.querySelectorAll(`.starEdge${i}`);
+
+                        for (let j = 0; j < starEdge.length; j++)
+                        {
+                            mouseOverOut('mouseover', '1.5', starEdge[j]);
+                            mouseOverOut('mouseout', '1', starEdge[j]);
+                        }
+                    }
+                }
+
+                function clickStars(coordinates, starIndices) {
+                    let stars = document.querySelectorAll('.stars');
+                    let edges = document.querySelectorAll('.edges');
+
+                    for (let i = 0; i < coordinates.length; i++)
+                    {
+                        stars[i].addEventListener("click", function() {
+                            window.scrollTo(coordinates[i].x - centerX, coordinates[i].y - centerY);
+                            transitionSound.currentTime = 0.5;
+                            transitionSound.play();
+                        });
+                    }
+
+                    for (let j = 0; j < edges.length; j++)
+                    {
+                        let swap = 0;
+                        edges[j].addEventListener("click", function() {
+                            if (swap == 0) {
+                                window.scrollTo(coordinates[j + 1].x - centerX, coordinates[j + 1].y - centerY);
+                                swap = 1;
+                            }
+                            else if (swap == 1) {
+                                window.scrollTo(coordinates[j].x - centerX, coordinates[j].y - centerY);
+                                swap = 0;
+                            }
+                            transitionSound.currentTime = 0.5;
+                            transitionSound.play();
+                        });
+                    }
+                }
+
+                function keyPressStar() {
+                    window.addEventListener('keydown', function(press) {
+                        if (press.key === 'q' || press.key === 'w')
+                        {
+                            let starWomb = document.querySelectorAll('.stars, .edges');
+                            starWomb.forEach((child) => {
+                                child.remove();
+                            });
+
+                            if (press.key === 'q')
+                            {
+                                starCreateSound.play();
+                                starsCreation(mouseBlockX, mouseBlockY);
+                            }
+                            else if (press.key === 'w')
+                            {
+                                starRemoveSound.play();
+                                starCoordinates.pop();
+                                starsCreation(0, 0);
+                            }
+                        }
+                    })
+                }
+
+
+                // ERASABLE: Knows x and y coords
+                function coordinatesDetect() {
+                    let bg = document.querySelector('#bg');
+
+                    bg.addEventListener('mousemove', function(event) {
+                        let x = event.offsetX / 4;
+                        let y = event.offsetY / 4;
+                        parallaxEffect(x, y);
+                    });
+                }
+
+                function mouseOverOut(eventType, Tvalue, starEdge) {
+                    starEdge.addEventListener(eventType, function() {
+                        let starEdgeClass = Array.from(this.classList).find(cls => cls.startsWith('starEdge'));
+                        let stars = document.querySelectorAll(`.stars.${starEdgeClass}`);
+
+                        for (let k = 0; k < stars.length; k++)
+                        {
+                            Object.assign(stars[k].style, {
+                                transform: `translate(-50%, -50%) scale(${Tvalue})`
+                            });
+                        }
+                    });
+                }
+
+                function parallaxEffect(x, y) {
+                    document.documentElement.style.setProperty('--x', x + 'px');
+                    document.documentElement.style.setProperty('--y', y + 'px');
+                }
+
+                main();
+            }
+        </script>
+
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <fieldset id="intro" class="introduction">
+                <legend class="introduction"></legend>>...</legend>
+                <p id="typewrite" class="introduction"></p>>...</p>
+            </fieldset>
+            <section id="cat404Container" class="four04">
+                <h6 class="four04">...</h6>
+                <img src="https://httpcats.com/404.jpg" alt="404 Not Found" id="cat404" class="four04">
+            </section>
+            <div id="tempBody1"></div>
+            <div id="tempBody2"></div>
+
+            <header></header>
+            <div>
+                <!--DESIGNS-->
+                <img src="images/snowfall.gif" id="snow" alt="This is a snow falling from the sky">
+                <img src="images/Background.png" id="bg" alt="This is an image of a night sky background." class="fixed-position">
+                <h1 id="welcome">This is CS50</h1>
+                <div id="mouseBlock"></div>
+                <div id="vignette"></div>
+                <div id="lightBulbsSection"></div>
+                <div id="starAndEdge">
+                    <div id="starSection"></div>
+                    <div id="edgesSection"></div>
+                </div>
+                <!--DESIGNS-->
+            </div>
+            <footer>
+                <p id="credit">Made by <a href="https://github.com/me50/OneLaddd" >Me</a></p>
+            </footer>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+    </body>
+</html>

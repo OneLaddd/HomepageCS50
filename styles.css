@@ -1,0 +1,349 @@
+
+body {
+  overflow: auto;
+  cursor: url("images/whiteCursor.png"), auto;
+}
+
+/* BOOTSTRAP CLASSES*/
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* LOAD CONTENT */
+
+#tempBody1, #tempBody2 {
+  z-index: 10;
+  position: absolute;
+  width: 1535px;
+  height: calc(1535px / 2);
+  background: black;
+  transition: transform 5s;
+  transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+  pointer-events: none;
+}
+
+#tempBody1 {
+  top: 0; left: 0;
+}
+
+#tempBody2 {
+  top: calc(1535px / 2); left: 0;
+}
+
+.introduction {
+  display: block;
+}
+
+#intro {
+  border-radius: 40px;
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: calc(1535px / 2); left: calc(1535px / 2);
+  transform: translate(-50%, -50%) scale(0.75);
+  z-index: 12;
+  background: black;
+  border: 5px dashed white;
+  padding: 10px;
+}
+
+#intro legend {
+  font-family: 'PT Sans', sans-serif;
+  color: white;
+  font-size: 60px;
+  font-weight: 700;
+}
+
+#intro #typewrite {
+  font-family: 'PT Sans', sans-serif;
+  color: white;
+  padding: 20px;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.four04 {
+  display: none;
+  opacity: 1;
+  transition: 1s ease;
+  pointer-events: none;
+}
+
+#cat404Container {
+  position: absolute;
+  text-align: center;
+  width: 420px;
+  height: 500px;
+  transform: translate(-50%, -50%) scale(0.75);
+  top: calc(1535px / 2); left: calc(1535px / 2);
+  z-index: 11;
+}
+
+#cat404 {
+  position: absolute;
+  width: 1000px;
+  height: 875px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.75);
+  box-shadow: 0 0 0 10px black, 0 0 0 15px white;
+}
+
+h6 {
+  position: absolute;
+  width: 400px;
+  top: -25%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'PT Sans', sans-serif;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+
+
+/* MAIN CONTENT */
+/* MAIN CONTENT */
+/* MAIN CONTENT */
+
+
+#credit, h1, a {
+  font-family: 'PT Sans', sans-serif;
+  white-space: nowrap;
+  color: white;
+  z-index: 4;
+}
+
+a:hover {
+  color: #e0e0e0;
+}
+
+#credit {
+  padding-top: 20px;
+  font-size: 10px;
+  font-weight: 400;
+  pointer-events: auto;
+}
+
+#welcome, #snow {
+  transform: translate(calc(-1 * (var(--x) / 50)), calc(-1 * (var(--y) / 25)));
+}
+
+#snow {
+  position: fixed;
+  top: -10vh;
+  left: -10vw;
+  width: 110vw;
+  height: 110vh;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#bg {
+  position: absolute;
+  transform: translate(-37.5%, -37.5%) scale(25%);
+  user-select: none;
+}
+
+#welcome {
+  position: absolute;
+  top: 780px;
+  left: 432px;
+  font-size: 120px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+header, footer, #vignette {
+  background-color: black;
+  position: fixed;
+  width: 100vw;
+  height: 10vh;
+  z-index: 5;
+  pointer-events: none;
+  text-align: center;
+}
+
+header {
+  top: 0px;
+}
+
+footer {
+  bottom: 0px;
+}
+
+#mouseBlock {
+  background-color: white;
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transition: transform 0.23s;
+  pointer-events: none;
+  z-index: 7;
+}
+
+#vignette {
+  position: fixed;
+  background: radial-gradient(circle at center center, transparent, transparent, transparent, black 99%);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+#vignette::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: radial-gradient(circle at center, transparent, black);
+    mix-blend-mode: multiply;
+    filter: blur(100px);
+}
+
+.lightBulbs {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: 0.5s ease;
+  transform-origin: center;
+  opacity: 0.1;
+}
+
+.lightBulbs::before,
+.lightBulbs::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+}
+
+.lightBulbs::before {
+  width: 150px;
+  height: 150px;
+  transform: translate(-50%, -50%);
+  filter: blur(10px);
+  background-color: rgba(161, 222, 255, 0.3);
+  background-image: url("images/blight1.png");
+  background-size: contain;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.lightBulbs::after {
+  top: 2px;
+  left: 3px;
+  background: white;
+  width: 10px;
+  height: 10px;
+  z-index: 3;
+  mix-blend-mode: initial;
+  transition: 0.5s ease;
+  transform-origin: center;
+}
+
+.lightBulbs:hover {
+  opacity: 0.3;
+}
+
+.lightBulbs:hover::after {
+  transform: scale(1.8);
+}
+
+.starAndEdge {
+  z-index: 4;
+}
+
+.stars {
+  position: absolute;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background: white;
+  transform: translate(-50%, -50%);
+  transition: 1s ease-in-out;
+  z-index: 4;
+  transform-origin: center;
+}
+
+.stars::before {
+  content: "";
+  filter: blur(10px);
+  display: block;
+  height: 40px;
+  width: 40px;
+  background-color: rgba(161, 222, 255, 0.9);
+  mix-blend-mode: overlay;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -40%);
+}
+
+.stars::after {
+  border: 0px solid white;
+  top: 20%;
+  left: 20%;
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  position: absolute;
+  transition: 1s ease-in-out;
+  transform-origin: center;
+}
+
+.stars:hover {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.stars:hover::after {
+
+  border: 1px solid white;
+  transform: scale(4) rotate(360deg);
+}
+
+.edges {
+  width: 1px;
+  background: white;
+  transform-origin: bottom;
+  transition: 0.5s ease-in-out;
+  position: absolute;
+  z-index: 3;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  padding: 0 1px;
+  background-clip: padding-box;
+  display: block;
+}
+
+.edges::before {
+  content: "";
+  filter: blur(10px);
+  display: block;
+  height: 100%;
+  width: 20px;
+  background-color: rgba(161, 222, 255, 0.3);
+  mix-blend-mode: overlay;
+  z-index: 3;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: background-color 0.5s ease;
+}
+
+.edges:hover {
+  padding: 0 3px;
+}
+
+.edges:hover::before {
+  background-color: rgba(161, 222, 255, 0.9);
+}
